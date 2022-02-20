@@ -25,6 +25,29 @@ public class Driver {
 	private Integer championships;
 	
 	public Driver() {}
+	
+	public Driver(String id, String name, String nationality, String code, String number, String dob, Integer raceCount,
+			Integer wins, Integer podiums, Integer poles, Integer fastestLaps, Double points, String firstWin,
+			String lastWin, Integer championships) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.nationality = nationality;
+		this.code = code;
+		this.number = number;
+		this.dob = dob;
+		this.raceCount = raceCount;
+		this.wins = wins;
+		this.podiums = podiums;
+		this.poles = poles;
+		this.fastestLaps = fastestLaps;
+		this.points = points;
+		this.firstWin = firstWin;
+		this.lastWin = lastWin;
+		this.championships = championships;
+	}
+
+
 
 	public String getId() {
 		return id;
