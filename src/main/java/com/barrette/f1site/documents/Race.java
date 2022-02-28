@@ -2,11 +2,13 @@ package com.barrette.f1site.documents;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection="races")
 public class Race {
 	
 	@Id
+	@Field("_id")
 	private String raceId;
 	private String date;
 	private String circuitName;
