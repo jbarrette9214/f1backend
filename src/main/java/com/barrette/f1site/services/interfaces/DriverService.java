@@ -6,4 +6,6 @@ import com.barrette.f1site.utilities.GeneralException;
 public interface DriverService {
 
 	public DriverDTO getDriverInfoByName(String name) throws GeneralException;
+	public DriverDTO addNewDriver(DriverDTO dto) throws GeneralException;
+	
 }

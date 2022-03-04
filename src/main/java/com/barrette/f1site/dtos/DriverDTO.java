@@ -1,14 +1,26 @@
 package com.barrette.f1site.dtos;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.validation.annotation.Validated;
+
 import com.barrette.f1site.documents.Driver;
 
+@Validated
 public class DriverDTO {
 	
+	@Null(message="{driver.id.null}")
 	private String id;
+	@NotEmpty(message="{driver.name.notEmpty}")
 	private String name;
+	@NotEmpty(message="{driver.nationality.notEmpty}")
 	private String nationality;
 	private String code;
 	private String number;
+	@NotEmpty(message="{driver.dob.notEmpty}")
+	@Pattern(regexp="[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}", message="{driver.dob.pattern}")
 	private String dob;
 	private Integer raceCount;
 	private Integer wins;
