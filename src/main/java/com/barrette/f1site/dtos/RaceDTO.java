@@ -1,16 +1,31 @@
 package com.barrette.f1site.dtos;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
+
 import com.barrette.f1site.documents.Race;
 
 public class RaceDTO {
 	
+	@Null(message="{race.id.null}")
 	private String raceId;
+	@NotEmpty(message="{race.date.required}")
 	private String date;
+	@NotEmpty(message="{race.circuitName.required}")
 	private String circuitName;
+	@Min(value=2022, message="{race.year.value}")
+	@Max(value=2030, message="{race.year.value}")
 	private Integer year;
+	@Min(value=1, message="{race.round.value}")
+	@Max(value=25, message="{race.round.value}")
 	private Integer round;
+	@NotEmpty(message="{race.circuitLocation.required}")
 	private String circuitLocation;
+	@NotEmpty(message="{race.country.required}")
 	private String country;
+	@NotEmpty(message="{race.name.required}")
 	private String name;
 
 	public RaceDTO() {}
