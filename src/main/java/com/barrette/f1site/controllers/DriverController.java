@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.barrette.f1site.dtos.DriverDTO;
+import com.barrette.f1site.dtos.RaceNameDateDTO;
 import com.barrette.f1site.repositories.RacesRepo;
 import com.barrette.f1site.repositories.ResultsRepo;
 import com.barrette.f1site.services.interfaces.DriverService;
@@ -47,5 +48,10 @@ public class DriverController {
 	public ResponseEntity<String[]> getDriverListByYear(@Min(value=1950, message="driver.controller.yearMin")
 		@Max(value=2025, message="driver.controller.yearMax") @PathVariable Integer year) throws GeneralException {
 		return new ResponseEntity<>(driverService.getSetOfDriverByYear(year), HttpStatus.OK);
+	}
+	
+	@GetMapping("/winList/{driverName}")
+	public ResponseEntity<List<RaceNameDateDTO>> getDriverWinList(@PathVariable String driverName) throws GeneralException {
+		return new ResponseEntity<>(driverService.getListOfDriverWins(driverName), HttpStatus.OK);
 	}
 }

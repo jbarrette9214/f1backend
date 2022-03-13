@@ -8,8 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Race {
 	
 	@Id
-	@Field("_id")
-	private String raceId;
+	private String id;
 	private String date;
 	private String circuitName;
 	private Integer year;
@@ -23,7 +22,7 @@ public class Race {
 	public Race(String raceId, String date, String circuitName, Integer year, Integer round, String circuitLocation,
 			String country, String name) {
 		super();
-		this.raceId = raceId;
+		this.id = raceId;
 		this.date = date;
 		this.circuitName = circuitName;
 		this.year = year;
@@ -34,11 +33,11 @@ public class Race {
 	}
 
 	public String getRaceId() {
-		return raceId;
+		return id;
 	}
 
 	public void setRaceId(String raceId) {
-		this.raceId = raceId;
+		this.id = raceId;
 	}
 
 	public String getDate() {
@@ -106,7 +105,7 @@ public class Race {
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((raceId == null) ? 0 : raceId.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((round == null) ? 0 : round.hashCode());
 		result = prime * result + ((year == null) ? 0 : year.hashCode());
 		return result;
@@ -146,10 +145,10 @@ public class Race {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (raceId == null) {
-			if (other.raceId != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!raceId.equals(other.raceId))
+		} else if (!id.equals(other.id))
 			return false;
 		if (round == null) {
 			if (other.round != null)
@@ -166,7 +165,7 @@ public class Race {
 
 	@Override
 	public String toString() {
-		return "Race [raceId=" + raceId + ", date=" + date + ", circuitName=" + circuitName + ", year=" + year
+		return "Race [raceId=" + id + ", date=" + date + ", circuitName=" + circuitName + ", year=" + year
 				+ ", round=" + round + ", circuitLocation=" + circuitLocation + ", country=" + country + ", name="
 				+ name + "]";
 	}

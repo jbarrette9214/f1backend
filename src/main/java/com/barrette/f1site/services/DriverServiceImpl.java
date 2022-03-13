@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import com.barrette.f1site.documents.Driver;
 import com.barrette.f1site.documents.Race;
 import com.barrette.f1site.documents.Result;
 import com.barrette.f1site.dtos.DriverDTO;
+import com.barrette.f1site.dtos.RaceNameDateDTO;
 import com.barrette.f1site.repositories.DriverRepo;
 import com.barrette.f1site.repositories.RacesRepo;
 import com.barrette.f1site.repositories.ResultsRepo;
@@ -74,6 +76,33 @@ public class DriverServiceImpl implements DriverService {
 		});
 		
 		return drivers.toArray(String[]::new);
+	}
+
+	@Override
+	public List<RaceNameDateDTO> getListOfDriverWins(String driverName) throws GeneralException {
+		Driver driver = driverRepo.findByNameIgnoreCase(driverName).orElseThrow(()->new GeneralException(NOT_FOUND));
+		
+		List<Result> resultList = resultsRepo.getDriverWins(driver.getId());
+		
+		if(resultList.isEmpty())
+			throw new GeneralException("service.driver.noWins");
+		
+		List<RaceNameDateDTO> winList = resultList.stream().map(r-> {
+			
+			Race race = null;
+			try {
+				race = raceRepo.findById(r.getRaceId()).orElseThrow(()->new GeneralException("service.driver.raceNotFound"));
+				
+			} catch (GeneralException e) {
+				e.printStackTrace();
+			}
+			if(null != race)
+				return new RaceNameDateDTO(race.getName(), race.getDate());
+			else
+				return new RaceNameDateDTO();
+		}).collect(Collectors.toList());
+		
+		return winList;
 	}
 
 
