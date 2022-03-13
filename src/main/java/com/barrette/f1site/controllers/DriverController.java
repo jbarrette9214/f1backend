@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.barrette.f1site.dtos.DriverDTO;
 import com.barrette.f1site.dtos.RaceNameDateDTO;
+import com.barrette.f1site.dtos.RaceNameDateFinishPosDTO;
 import com.barrette.f1site.repositories.RacesRepo;
 import com.barrette.f1site.repositories.ResultsRepo;
 import com.barrette.f1site.services.interfaces.DriverService;
@@ -53,5 +54,10 @@ public class DriverController {
 	@GetMapping("/winList/{driverName}")
 	public ResponseEntity<List<RaceNameDateDTO>> getDriverWinList(@PathVariable String driverName) throws GeneralException {
 		return new ResponseEntity<>(driverService.getListOfDriverWins(driverName), HttpStatus.OK);
+	}
+	
+	@GetMapping("/allRaceResults/{driverName}")
+	public ResponseEntity<List<RaceNameDateFinishPosDTO>> getAllDriverResults(@PathVariable String driverName) throws GeneralException {
+		return new ResponseEntity<>(driverService.getAllResultsForDriver(driverName), HttpStatus.OK);
 	}
 }

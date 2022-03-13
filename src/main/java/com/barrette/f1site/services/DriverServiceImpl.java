@@ -16,6 +16,7 @@ import com.barrette.f1site.documents.Race;
 import com.barrette.f1site.documents.Result;
 import com.barrette.f1site.dtos.DriverDTO;
 import com.barrette.f1site.dtos.RaceNameDateDTO;
+import com.barrette.f1site.dtos.RaceNameDateFinishPosDTO;
 import com.barrette.f1site.repositories.DriverRepo;
 import com.barrette.f1site.repositories.RacesRepo;
 import com.barrette.f1site.repositories.ResultsRepo;
@@ -91,7 +92,7 @@ public class DriverServiceImpl implements DriverService {
 			
 			Race race = null;
 			try {
-				race = raceRepo.findById(r.getRaceId()).orElseThrow(()->new GeneralException("service.driver.raceNotFound"));
+				race = raceRepo.findById(r.getRaceId()).orElseThrow(()->new GeneralException("service.driver.notFoundRace"));
 				
 			} catch (GeneralException e) {
 				e.printStackTrace();
@@ -99,10 +100,36 @@ public class DriverServiceImpl implements DriverService {
 			if(null != race)
 				return new RaceNameDateDTO(race.getName(), race.getDate());
 			else
-				return new RaceNameDateDTO();
-		}).collect(Collectors.toList());
+				return null;
+		}).filter(res-> null!=res).collect(Collectors.toList());
 		
 		return winList;
+	}
+
+	@Override
+	public List<RaceNameDateFinishPosDTO> getAllResultsForDriver(String driverName) throws GeneralException {
+		Driver driver = driverRepo.findByNameIgnoreCase(driverName).orElseThrow(()->new GeneralException(NOT_FOUND));
+		
+		List<Result> resultList = resultsRepo.findByDriverId(driver.getId());
+		
+		if(resultList.isEmpty())
+			throw new GeneralException("service.driver.notFoundResults");
+		
+		List<RaceNameDateFinishPosDTO> dtos = resultList.stream().map(r -> {
+			Race race = null;
+			try {
+				race = raceRepo.findById(r.getRaceId()).orElseThrow(()->new GeneralException("service.driver.notFoundRace"));
+				
+			} catch (GeneralException e) {
+				e.printStackTrace();
+			}
+			if(null != race)
+				return new RaceNameDateFinishPosDTO(race.getName(), race.getDate(), r.getFinishPos());
+			else
+				return null;
+		}).filter(res-> null!= res).collect(Collectors.toList());
+		
+		return dtos;
 	}
 
 

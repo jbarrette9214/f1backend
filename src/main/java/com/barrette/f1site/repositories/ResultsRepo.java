@@ -14,4 +14,6 @@ public interface ResultsRepo extends MongoRepository<Result, String> {
 	
 	@Query(value= "{driverId:?0, finishPos: 1}")
 	List<Result> getDriverWins(String driverId);
+	
+	List<Result> findByDriverId(String driverId);
 }

@@ -1,14 +1,26 @@
 package com.barrette.f1site.dtos;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
+
+import org.springframework.validation.annotation.Validated;
+
 import com.barrette.f1site.documents.ConstructorsDoc;
 
+@Validated
 public class ConstructorDTO {
 
+	@Null(message="{constructor.id.null}")
 	private String id;
+	@NotEmpty(message="{constructor.name.notNull}")
 	private String name;
+	@NotEmpty(message="{constructor.nationality.notNull}")
 	private String nationality;
+	@Null(message="{constuctor.raceCount.null}")
 	private Integer raceCount;
+	@Null(message="{constructor.wins.null}")
 	private Integer wins;
+	@Null(message="{constructor.podiums.null}")
 	private Integer podiums;
 	
 	public ConstructorDTO() {}
