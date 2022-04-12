@@ -48,18 +48,18 @@ public class StandingsController {
 		return new ResponseEntity<>(constructorService.updateConstructorStandings(year, constructorName, points), HttpStatus.OK);
 	}
 	
-	@PostMapping("/driver/add")
+	@PostMapping("/drivers/add")
 	public ResponseEntity<DriverStandingsDTO> addNewDriverStandings(@RequestParam String year, @RequestBody List<Standing> drivers) 
 																	throws GeneralException {
 		return new ResponseEntity<>(driverService.addNewDriverStandings(year, drivers), HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/driver/{year}")
+	@GetMapping("/drivers/{year}")
 	public ResponseEntity<DriverStandingsDTO> getDriverStandingsByYear(@PathVariable String year) throws GeneralException {
 		return new ResponseEntity<>(driverService.getDriverStandingsByYear(year), HttpStatus.OK);
 	}
 	
-	@PutMapping("/driver/update")
+	@PutMapping("/drivers/update")
 	public ResponseEntity<String> updateDriverStandings(@RequestParam String year, @RequestParam String driverName, 
 												@RequestParam Float points) throws GeneralException {
 		return new ResponseEntity<>(driverService.updateDriverStandings(year, driverName, points), HttpStatus.OK);
