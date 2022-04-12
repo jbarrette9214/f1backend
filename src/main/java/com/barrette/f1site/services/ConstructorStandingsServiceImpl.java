@@ -27,7 +27,7 @@ public class ConstructorStandingsServiceImpl implements ConstructorStandingsServ
 	
 	@Override
 	public ConstructorStandingsDTO addNewConstructorStandings(String year, String[] constructorNames) throws GeneralException {
-		Optional<ConstructorStandings> consTest = conStandingRepo.findByYear(year);
+		Optional<ConstructorStandings> consTest = conStandingRepo.findByYear(Integer.valueOf(year));
 		
 		if(consTest.isPresent())
 			throw new GeneralException("service.constructorStanding.alreadyPresent");
@@ -49,14 +49,14 @@ public class ConstructorStandingsServiceImpl implements ConstructorStandingsServ
 
 	@Override
 	public ConstructorStandingsDTO getStandingsByYear(String year) throws GeneralException {
-		ConstructorStandings standings = conStandingRepo.findByYear(year).orElseThrow(()-> new GeneralException(NOT_FOUND));
+		ConstructorStandings standings = conStandingRepo.findByYear(Integer.valueOf(year)).orElseThrow(()-> new GeneralException(NOT_FOUND));
 		
 		return ConstructorStandingsDTO.convertToDTO(standings);
 	}
 
 	@Override
 	public String updateConstructorStandings(String year, String constructorName, Float points) throws GeneralException {
-		ConstructorStandings conStandings = conStandingRepo.findByYear(year).orElseThrow(()-> new GeneralException(NOT_FOUND));
+		ConstructorStandings conStandings = conStandingRepo.findByYear(Integer.valueOf(year)).orElseThrow(()-> new GeneralException(NOT_FOUND));
 		
 		List<Standing> st = conStandings.getStandings().stream().map(s -> {
 															if(s.getConstructor().equals(constructorName)) {

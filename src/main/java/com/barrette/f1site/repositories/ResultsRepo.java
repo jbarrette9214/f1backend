@@ -1,6 +1,7 @@
 package com.barrette.f1site.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -16,4 +17,6 @@ public interface ResultsRepo extends MongoRepository<Result, String> {
 	List<Result> getDriverWins(String driverId);
 	
 	List<Result> findByDriverId(String driverId);
+	
+	Optional<Result> findByDriverIdAndRaceId(String driverId, String raceId);
 }

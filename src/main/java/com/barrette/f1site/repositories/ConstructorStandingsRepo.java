@@ -8,6 +8,6 @@ import com.barrette.f1site.documents.ConstructorStandings;
 
 public interface ConstructorStandingsRepo extends MongoRepository<ConstructorStandings, String> {
 
-	Optional<ConstructorStandings> findByYear(String year);
+	Optional<ConstructorStandings> findByYear(Integer year);
 	
 }
