@@ -1,15 +1,34 @@
 package com.barrette.f1site.dtos;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.validation.annotation.Validated;
+
 import com.barrette.f1site.documents.FastestLap;
 
+@Validated
 public class FastestLapDTO {
 
+	@Null(message="{fastestLap.id.null}")
 	private String id;
+	@Min(value=2021, message="{fastestLap.year.minValue}")
+	@Max(value=2050, message="{fastestLap.year.maxValue}")
 	private Integer year;
+	@NotEmpty(message="{fastestLap.raceName.required}")
 	private String raceName;
+	@Min(value=1, message="{fastestLap.lap.minValue}")
+	@Max(value=120, message="{fastestLap.lap.maxValue}")
 	private Integer lap;
+	@NotEmpty(message="{fastestLap.lapTime.required}")
+	@Pattern(regexp="[0-9]{0,1}:[0-9]{2}.[0-9]{1,3}", message="{fastestLap.lapTime.pattern}")
 	private String lapTime;
+	@Null(message="{fastestLap.milli.null}")
 	private Integer milliseconds;
+	@NotEmpty(message="{fastestLap.driverName.required}")
 	private String driverName;
 
 	public FastestLapDTO() {}
