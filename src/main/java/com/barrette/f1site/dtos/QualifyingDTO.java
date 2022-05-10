@@ -1,13 +1,28 @@
 package com.barrette.f1site.dtos;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
+
+import org.springframework.validation.annotation.Validated;
+
 import com.barrette.f1site.documents.Qualifying;
 
+@Validated
 public class QualifyingDTO {
 	
+	@Null(message="{qualifying.id.null}")
 	private String id;
+	@Min(value=1950, message="{qualifying.year.min}")
+	@Max(value=2050, message="{qualifying.year.max}")
 	private Integer year;
+	@NotEmpty(message="{qualifying.raceName.required}")
 	private String raceName;
+	@NotEmpty(message="{qualifying.driverName.required}")
 	private String driverName;
+	@Min(value=1, message="{qualifying.position.min}")
+	@Max(value=30, message="{qualifying.position.max}")
 	private Integer position;
 	private String q1;
 	private String q2;
