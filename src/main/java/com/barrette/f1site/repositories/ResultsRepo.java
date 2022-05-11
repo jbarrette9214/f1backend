@@ -19,4 +19,6 @@ public interface ResultsRepo extends MongoRepository<Result, String> {
 	List<Result> findByDriverId(String driverId);
 	
 	Optional<Result> findByDriverIdAndRaceId(String driverId, String raceId);
+	
+	List<Result> findByRaceId(String raceId);
 }
