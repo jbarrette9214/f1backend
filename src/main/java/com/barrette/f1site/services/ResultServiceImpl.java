@@ -107,9 +107,25 @@ public class ResultServiceImpl implements ResultService{
 //		return ResultDTO.convertToDTO(result);
 //	}
 
+	
 	@Override
 	public ResultDTO addResult(ResultDTO dto) throws GeneralException {
-		return null;
+		//get all results for a race, add this result to db,  sort all of them by laptime then set the fastest lap position
+		List<Result> results = resultsRepo.findByRaceId(dto.getRaceId());
+		if(results.isEmpty())
+			throw new GeneralException("service.result.notFoundRace");
+		
+		Result added = resultsRepo.save(ResultDTO.convertToDoc(dto));
+		results.add(added);
+		
+		results.sort((a,b)-> a.toString().compareTo(b.toString()));
+		
+		for(int i=0; i < results.size(); ++i) {
+			results.get(i).setFastLapRank(i+1);
+			resultsRepo.save(results.get(i));
+		}
+		
+		return ResultDTO.convertToDTO(added);
 	}
 
 	@Override
@@ -125,7 +141,7 @@ public class ResultServiceImpl implements ResultService{
 		
 		List<ResultShort> shortList = results.stream().map(r-> {
 																	Driver driver = driverRepo.findById(r.getDriverId()).get();
-																	return new ResultShort(driver.getName(), r.getFinishPos());
+																	return new ResultShort(driver.getName(), r.getFinishPos(), r.getStartPos(), r.getPitstops().size());
 														}).collect(Collectors.toList());
 											
 		shortList.sort((r1,r2)->r1.getPosition().compareTo(r2.getPosition()));

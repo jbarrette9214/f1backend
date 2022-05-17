@@ -2,19 +2,34 @@ package com.barrette.f1site.dtos;
 
 import java.util.List;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+
+import org.springframework.validation.annotation.Validated;
+
 import com.barrette.f1site.documents.Result;
 import com.barrette.f1site.pojos.LapTime;
 import com.barrette.f1site.pojos.Pitstop;
 
+@Validated
 public class ResultDTO {
 
 	private String id;
+	@NotEmpty(message="{result.driverId.notEmpty}")
 	private String driverId;
+	@NotEmpty(message="{result.constructorId.notEmpty}")
 	private String constructorId;
+	@NotEmpty(message="{result.raceId.notEmpty}")
 	private String raceId;
+	@Min(value=1,message="{result.startPos.value}")
+	@Max(value=30, message="{result.startPos.value}")
 	private Integer startPos;
+	@Min(value=1, message="{result.finishPos.value}")
+	@Max(value=30, message="{result.finishPos.value}")
 	private Integer finishPos;
 	private Integer laps;
+	@NotEmpty(message="{result.status.notEmpty}")
 	private String status;
 	private String fastLapTime;
 	private Integer fastLapRank;
@@ -25,7 +40,7 @@ public class ResultDTO {
 	public ResultDTO() {}
 	
 	public ResultDTO(String id, String driverId, String constructorId, String raceId, Integer startPos,
-			Integer finishPos, Integer laps, String status, String fastLapTime, Integer fastLapRank,
+			Integer finishPos, Integer laps,  String status, String fastLapTime, Integer fastLapRank,
 			List<LapTime> lapTimes, List<Pitstop> pitstops) {
 		super();
 		this.id = id;
@@ -34,12 +49,20 @@ public class ResultDTO {
 		this.raceId = raceId;
 		this.startPos = startPos;
 		this.finishPos = finishPos;
-		this.laps = laps;
+		this.laps = lapTimes.size();
 		this.status = status;
-		this.fastLapTime = fastLapTime;
+		//this.fastLapTime = fastLapTime;
 		this.fastLapRank = fastLapRank;
 		this.lapTimes = lapTimes;
 		this.pitstops = pitstops;
+		
+		if(lapTimes.size()==0) {
+			this.fastLapTime = "NA";
+			this.fastLapTime = "NA";
+		} else {
+			lapTimes.sort((a,b)->a.toString().compareTo(b.toString()));
+			this.fastLapTime = lapTimes.get(0).getTime();
+		}
 	}
 
 	public String getId() {
@@ -239,7 +262,7 @@ public class ResultDTO {
 	
 	public static ResultDTO convertToDTO(Result doc) {
 		return new ResultDTO(doc.getId(), doc.getDriverId(), doc.getConstructorId(), doc.getRaceId(), doc.getStartPos(),
-				doc.getFinishPos(), doc.getLaps(), doc.getStatus(), doc.getFastLapTime(), doc.getFastLapRank(), 
+				doc.getFinishPos(),  doc.getLaps(), doc.getStatus(), doc.getFastLapTime(), doc.getFastLapRank(), 
 				doc.getLapTimes(), doc.getPitstops());
 	}
 	

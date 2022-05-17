@@ -73,4 +73,9 @@ public class RaceController {
 		return new ResponseEntity<>(resultService.getDriversDetailedResult(raceName, year, driverName), HttpStatus.OK);
 	}
 	
+	@PostMapping("/result/add")
+	public ResponseEntity<ResultDTO> addRaceResult(@Valid @RequestBody ResultDTO dto) throws GeneralException {
+		return new ResponseEntity<>(resultService.addResult(dto), HttpStatus.CREATED);
+	}
+	
 }
