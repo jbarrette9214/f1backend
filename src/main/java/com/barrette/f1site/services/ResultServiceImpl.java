@@ -110,7 +110,7 @@ public class ResultServiceImpl implements ResultService{
 	
 	@Override
 	public ResultDTO addResult(ResultDTO dto) throws GeneralException {
-		//get all results for a race, add this result to db,  sort all of them by laptime then set the fastest lap position
+		//get all results for a race, add new result to db,  sort all of them by laptime, then set the fastest lap position for each
 		List<Result> results = resultsRepo.findByRaceId(dto.getRaceId());
 		if(results.isEmpty())
 			throw new GeneralException("service.result.notFoundRace");
